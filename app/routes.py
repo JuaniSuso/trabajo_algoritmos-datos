@@ -217,3 +217,53 @@ def agregar_cancha():
         return redirect(url_for("main.admin_panel"))
 
     return render_template("agregar_cancha.html")
+
+@main.route("/ver_disponibilidad")
+def ver_disponibilidad():
+    # Simulamos 3 canchas (índices: 0, 1, 2)
+    # Matriz de 3 filas x 24 columnas (horas del día)
+    matriz = [[1 for _ in range(24)] for _ in range(3)]
+
+    # Asociar nombres de cancha con índices de fila
+    nombre_a_indice = {
+        "Cancha 1": 0,
+        "Cancha 2": 1,
+        "Cancha 3": 2,
+    }
+
+    try:
+        with open("data/reservas.txt", "r", encoding="utf-8") as archivo:
+            for linea in archivo:
+                datos = linea.strip().split(" - ")
+                if len(datos) != 3:
+                    continue
+                _, cancha_nombre, fecha_hora = datos
+
+                if cancha_nombre not in nombre_a_indice:
+                    continue  # Si la cancha no está en nuestro mapeo
+
+                cancha_idx = nombre_a_indice[cancha_nombre]
+
+                # Obtener hora (0 a 23) de la fecha y hora
+                from datetime import datetime
+                try:
+                    fecha_hora_obj = datetime.strptime(fecha_hora, "%Y-%m-%d %H:%M")
+                    hora = fecha_hora_obj.hour
+                except ValueError:
+                    continue  # Fecha mal formateada
+
+                # Marcar como ocupada
+                matriz[cancha_idx][hora] = 0
+    except FileNotFoundError:
+        pass  # Sin reservas aún
+
+    # Cálculo de estadísticas
+    por_cancha = [sum(fila) for fila in matriz]
+    por_horario = [sum(col) for col in zip(*matriz)]
+
+    return render_template(
+        "disponibilidad.html",
+        matriz=matriz,
+        por_cancha=por_cancha,
+        por_horario=por_horario
+    )

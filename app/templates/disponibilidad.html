@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Disponibilidad de Canchas</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        td, th {
+            border: 1px solid #ccc;
+            padding: 5px;
+            text-align: center;
+        }
+        .disponible {
+            background-color: lightgreen;
+        }
+        .ocupado {
+            background-color: lightcoral;
+        }
+    </style>
+</head>
+<body>
+    <h2>Matriz de Disponibilidad (1 día - 24 hs)</h2>
+    <table>
+        <tr>
+            <th>Cancha / Hora</th>
+            {% for h in range(24) %}
+                <th>{{ h }}hs</th>
+            {% endfor %}
+        </tr>
+        {% for fila in matriz %}
+        <tr>
+            <th>Cancha {{ loop.index }}</th>
+            {% for valor in fila %}
+            <td class="{{ 'disponible' if valor == 1 else 'ocupado' }}">{{ valor }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h3>Horas disponibles por cancha:</h3>
+    <ul>
+        {% for cant in por_cancha %}
+        <li>Cancha {{ loop.index }}: {{ cant }} horas libres</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Canchas disponibles por horario:</h3>
+    <ul>
+        {% for cant in por_horario %}
+        <li>{{ loop.index0 }} hs: {{ cant }} canchas disponibles</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
