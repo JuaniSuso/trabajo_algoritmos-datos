@@ -3,17 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
 </head>
 <body>
-    <h2>Iniciar Sesión</h2>
-    <form method="post">
+
+    <header>
+        <section class="nav-bar">
+
+            
+            <a class="login" href="{{ url_for('main.home') }}">Inicio</a>
+
+        </section>
+
+    </header>
+
+    <main>
+        <h2>Inicio de sesión</h2>
+    <form class="formulario" method="post">
+        <div class="labels">
         <label for="usuario">Usuario:</label>
         <input type="text" name="usuario" required><br>
         <label for="contraseña">Contraseña:</label>
         <input type="password" name="contraseña" required><br>
         <button type="submit">Ingresar</button>
-        <p>¿No tenés cuenta? <a href="{{ url_for('main.register') }}">Registrate acá</a></p> #por si el usuario no tiene cuenta
-
+        <p>¿No tenés cuenta? <a href="{{ url_for('main.register') }}">Registrate acá</a></p> 
+    </div>
     </form>
+
+    </main>
+
+    <footer>
+
+    </footer>
+    
 </body>
 </html>

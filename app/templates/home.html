@@ -3,9 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Inicio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
 </head>
 <body>
-    <h1>Bienvenido a Gestión de Canchas de Fútbol</h1>
-    <a href="{{ url_for('main.login') }}">Iniciar Sesión</a>
+    <header>
+        <section class="nav-bar">
+
+            <h2>Inicio</h2>
+            <a class="login" href="{{ url_for('main.login') }}">Iniciar Sesión</a>
+
+        </section>
+
+    </header>
+
+    <main>
+
+        <section class="caja">
+            <h1>Bienvenido a Gestión de Canchas de Fútbol</h1>
+        </section>
+        
+        
+    </main>
+
+    <footer>
+
+    </footer>
+   
 </body>
 </html>

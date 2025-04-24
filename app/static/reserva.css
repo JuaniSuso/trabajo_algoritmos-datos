@@ -1,0 +1,51 @@
+body{
+    margin: 0%;
+    background-image: url(../static/media/home.punga.png);
+}
+
+
+.nav-bar{
+    margin: 0;
+    padding: 15px;
+    padding-bottom: 30px;
+    background-color: rgb(223, 220, 220);
+    display: flex;
+    justify-content: center;
+    justify-content: space-between;
+    gap: 15px;
+
+    a{
+        color: black;
+        font-size: 25px;
+        font-weight: bold;
+    }
+
+      .login{
+        margin-top: 25px;
+        text-decoration: none;
+        
+      }
+
+
+    :hover{
+        background-color: rgb(182, 182, 182);
+        transition: 2s;
+    }  
+
+}
+
+h2{
+    display: flex;
+    justify-content: center;
+    color: white;
+    padding: 20px;
+    margin-top: 0px;
+    background-color: rgb(2, 95, 2);
+    font-size: 50px;
+    
+}
+
+a{
+    color: white;
+    text-decoration: none;
+}

@@ -1,0 +1,67 @@
+body{
+    margin: 0%;
+    background-image: url(../static/media/football-field-or-soccer-field-background-free-photo.jpg);
+}
+
+
+.nav-bar{
+    margin: 0;
+    padding: 15px;
+    padding-bottom: 30px;
+    background-color: rgb(223, 220, 220);
+    display: flex;
+    justify-content: center;
+    justify-content: space-between;
+    gap: 15px;
+
+    a{
+        color: black;
+        font-size: 25px;
+        font-weight: bold;
+    }
+
+      .login{
+        margin-top: 25px;
+        text-decoration: none;
+        
+      }
+
+}
+
+h2{
+    display: flex;
+    justify-content: center;
+    color: white;
+    padding: 20px;
+    margin-top: 0px;
+    background-color: rgb(2, 95, 2);
+    font-size: 50px;
+    
+}
+
+.formulario{
+    margin-top: -41px;
+  
+    justify-content: center;
+        
+    color: rgb(255, 255, 255);
+
+}
+
+.labels{
+    padding: 20px;
+    display: flex;
+    gap: 7px;
+    flex-direction: column;
+    margin-left: 570px;
+    margin-right: 570px;
+
+    a{
+        color: white;
+        
+    }
+
+    button{
+        margin-right: 200px;
+    }
+}

@@ -3,9 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Perfil de Usuario</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='perfil.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body>
-    <h2>Mi Perfil</h2>
+    <header>
+
+        <section class="nav-bar">
+
+            <a class="login" href="{{ url_for('main.home') }}">Inicio</a>
+        </section>
+        
+
+
+    </header>
+
+    <main>
+        <section class="login-card">
+        <h2>Mi Perfil</h2>
     <p><strong>Usuario:</strong> {{ datos.usuario }}</p>
     <p><strong>Nombre:</strong> {{ datos.nombre }}</p>
     <p><strong>Email:</strong> {{ datos.email }}</p>
@@ -29,8 +44,16 @@
     <p><a href="{{ url_for('main.home') }}">Volver al inicio</a></p>
     <p><a href="{{ url_for('main.reservar') }}">
         <button>Reservar Cancha</button>
-    </a></p>   
+    </a></p> 
+
+</section>
+    </main>
+      
+
+   <footer>
+
+   </footer> 
 </body>
 </html>
 
-#hola down
+    
