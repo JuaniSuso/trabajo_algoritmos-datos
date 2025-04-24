@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reservar Cancha</title>
+</head>
+<body>
+    <h2>Reservar Cancha</h2>
+
+    {% for cancha in canchas %}
+        <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+            <p><strong>{{ cancha.nombre }}</strong></p>
+            <p>Ubicación: {{ cancha.ubicacion }}</p>
+            <p>Tipo: {{ cancha.tipo }}</p>
+            <p>Precio: ${{ cancha.precio }} por hora</p>
+            <button disabled>Reservar (próximamente)</button>
+        </div>
+    {% endfor %}
+
+    <p><a href="{{ url_for('main.perfil') }}">Volver al perfil</a></p>
+</body>
+</html>

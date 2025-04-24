@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil de Usuario</title>
+</head>
+<body>
+    <h2>Mi Perfil</h2>
+    <p><strong>Usuario:</strong> {{ datos.usuario }}</p>
+    <p><strong>Nombre:</strong> {{ datos.nombre }}</p>
+    <p><strong>Email:</strong> {{ datos.email }}</p>
+    <p><strong>Teléfono:</strong> {{ datos.telefono }}</p>
+
+    <p><a href="{{ url_for('main.home') }}">Volver al inicio</a></p>
+    <p><a href="{{ url_for('main.reservar') }}">
+        <button>Reservar Cancha</button>
+    </a></p>
+    
+</body>
+</html>
