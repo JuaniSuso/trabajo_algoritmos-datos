@@ -26,7 +26,11 @@ def login():
                         session["email"] = email
                         session["telefono"] = telefono
                         flash(f"Bienvenido, {usuario}!")
-                        return redirect(url_for("main.perfil"))
+                         # Redirigir según el rol
+                        if rol == "empleado":
+                            return redirect(url_for("main.admin_panel"))
+                        else:
+                            return redirect(url_for("main.perfil"))
                 flash("Usuario o contraseña incorrectos.")
         except FileNotFoundError:
             flash("No hay usuarios registrados aún.")
@@ -137,11 +141,12 @@ def confirmar_reserva():
                     continue  # Ignorar líneas mal formateadas
                 _, c, fh = datos
                 if c == cancha and fh == fecha_hora:
-                    flash("Esa cancha ya está reservada en ese horario.", "error")
+                    flash(f"La cancha '{cancha}' ya está reservada para el horario {fecha_hora}. Por favor, seleccioná otro horario.", "error")
                     return redirect(url_for("main.reservar"))
     except FileNotFoundError:
         pass
 
+    # Si no está reservada, guardar la nueva reserva
     with open("data/reservas.txt", "a", encoding="utf-8") as archivo:
         archivo.write(nueva_reserva + "\n")
     flash(f"Reserva confirmada para {cancha} el {fecha_hora}.")
@@ -178,3 +183,37 @@ def gestion():
     if 'usuario' in session and session['rol'] == 'empleado':
         return render_template('gestion.html')
     return redirect(url_for('main.login'))
+
+
+@main.route("/admin")
+def admin_panel():
+    if "usuario" not in session or session.get("rol") != "empleado":
+        return redirect(url_for("main.login"))
+
+    canchas = []
+    try:
+        with open("data/canchas.txt", "r", encoding="utf-8") as archivo:
+            for linea in archivo:
+                canchas.append(linea.strip().split(" - "))
+    except FileNotFoundError:
+        pass
+
+    return render_template("admin.html", usuario=session["usuario"], canchas=canchas)
+
+@main.route("/admin/agregar_cancha", methods=["GET", "POST"])
+def agregar_cancha():
+    if "usuario" not in session or session.get("rol") != "empleado":
+        return redirect(url_for("main.login"))
+
+    if request.method == "POST":
+        nombre = request.form["nombre"]
+        ubicacion = request.form["ubicacion"]
+        cesped = request.form["cesped"]
+
+        with open("data/canchas.txt", "a", encoding="utf-8") as archivo:
+            archivo.write(f"{nombre} - {ubicacion} - {cesped}\n")
+
+        flash("Cancha agregada correctamente.")
+        return redirect(url_for("main.admin_panel"))
+
+    return render_template("agregar_cancha.html")

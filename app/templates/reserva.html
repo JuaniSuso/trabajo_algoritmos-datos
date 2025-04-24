@@ -12,6 +12,17 @@
     </style>
 </head>
 <body>
+    <!-- Mostrar mensajes de flash como ventana emergente -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <script>
+                {% for category, message in messages %}
+                    alert("{{ message | safe }}");
+                {% endfor %}
+            </script>
+        {% endif %}
+    {% endwith %}
+
     <h2>Reservar Cancha</h2>
 
     <form method="POST" action="{{ url_for('main.confirmar_reserva') }}">

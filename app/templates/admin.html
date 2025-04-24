@@ -1,0 +1,24 @@
+<h2>Bienvenido, {{ usuario }} (Administrador)</h2>
+
+<h3>Canchas Registradas</h3>
+<table border="1">
+    <tr>
+        <th>Nombre</th>
+        <th>Ubicación</th>
+        <th>Tipo de Césped</th>
+        <th>Acciones</th>
+    </tr>
+    {% for cancha in canchas %}
+    <tr>
+        <td>{{ cancha[0] }}</td>
+        <td>{{ cancha[1] }}</td>
+        <td>{{ cancha[2] }}</td>
+        <td>
+            <a href="#">Editar</a> | <a href="#">Eliminar</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<br>
+<a href="{{ url_for('main.agregar_cancha') }}">Agregar Nueva Cancha</a>
