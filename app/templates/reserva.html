@@ -3,20 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <title>Reservar Cancha</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #f9f9f9; }
+        form { background: white; padding: 20px; border-radius: 8px; max-width: 400px; margin: auto; }
+        h2 { text-align: center; }
+        button { padding: 10px 20px; border: none; background: green; color: white; border-radius: 5px; }
+    </style>
 </head>
 <body>
     <h2>Reservar Cancha</h2>
 
-    {% for cancha in canchas %}
-        <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
-            <p><strong>{{ cancha.nombre }}</strong></p>
-            <p>Ubicación: {{ cancha.ubicacion }}</p>
-            <p>Tipo: {{ cancha.tipo }}</p>
-            <p>Precio: ${{ cancha.precio }} por hora</p>
-            <button disabled>Reservar (próximamente)</button>
-        </div>
-    {% endfor %}
+    <form method="POST" action="{{ url_for('main.confirmar_reserva') }}">
+        <label for="cancha">Seleccioná una cancha:</label><br>
+        <select name="cancha" required>
+            <option value="Cancha 1">Cancha 1 - Sintético</option>
+            <option value="Cancha 2">Cancha 2 - Pasto natural</option>
+        </select><br><br>
 
-    <p><a href="{{ url_for('main.perfil') }}">Volver al perfil</a></p>
+        <label for="fecha_hora">Fecha y Hora:</label><br>
+        <input type="text" id="fecha_hora" name="fecha_hora" required><br><br>
+
+        <button type="submit">Confirmar Reserva</button>
+    </form>
+
+    <p style="text-align:center;"><a href="{{ url_for('main.perfil') }}">← Volver al perfil</a></p>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        flatpickr("#fecha_hora", {
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+            minDate: "today",
+            time_24hr: true
+        });
+    </script>
 </body>
 </html>

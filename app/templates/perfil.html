@@ -10,11 +10,25 @@
     <p><strong>Nombre:</strong> {{ datos.nombre }}</p>
     <p><strong>Email:</strong> {{ datos.email }}</p>
     <p><strong>Teléfono:</strong> {{ datos.telefono }}</p>
-
+    <h2>Tus reservas:</h2>
+    <ul>
+        {% for reserva in reservas %}
+            <li>
+                {{ reserva.cancha }} - {{ reserva.fecha_hora }}
+                {% if reserva.puede_cancelar %}
+                    <form action="{{ url_for('main.cancelar_reserva') }}" method="POST" style="display:inline;">
+                        <input type="hidden" name="reserva" value="{{ datos.usuario }} - {{ reserva.cancha }} - {{ reserva.fecha_hora }}">
+                        <button type="submit">Cancelar</button>
+                    </form>
+                {% else %}
+                    <span>(No se puede cancelar)</span>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
     <p><a href="{{ url_for('main.home') }}">Volver al inicio</a></p>
     <p><a href="{{ url_for('main.reservar') }}">
         <button>Reservar Cancha</button>
-    </a></p>
-    
+    </a></p>   
 </body>
 </html>
