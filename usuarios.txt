@@ -3,3 +3,4 @@ admin456;adminpass;empleado;admin;admin@example.com;987654321
 juan2;juan123;cliente;juan;juan@example.com;12345543
 pumpu;123;cliente;alvaro;alavaro@down.com;123455444
 hola;chau;cliente;hola;hola@gmail.com;1157818800
+ 

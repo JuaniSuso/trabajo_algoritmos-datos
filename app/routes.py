@@ -48,7 +48,6 @@ def register():
         email = request.form["email"]
         telefono = request.form["telefono"]
 
-        # Validar si el usuario ya existe
         try:
             with open("usuarios.txt", "r") as archivo:
                 for linea in archivo:
@@ -57,9 +56,8 @@ def register():
                         flash("El nombre de usuario ya existe.")
                         return redirect(url_for("main.register"))
         except FileNotFoundError:
-            pass  # El archivo se crea si no existe
+            pass  
 
-        # Guardar nuevo usuario
         with open("usuarios.txt", "a") as archivo:
             archivo.write(f"{usuario};{contraseña};cliente;{nombre};{email};{telefono}\n")
 
@@ -220,8 +218,8 @@ def agregar_cancha():
 
 @main.route("/ver_disponibilidad")
 def ver_disponibilidad():
-    # Simulamos 3 canchas (índices: 0, 1, 2)
-    # Matriz de 3 filas x 24 columnas (horas del día)
+    # 3 canchas (índices: 0, 1, 2)
+    # Matriz de 3 filas x 24 columnas 
     matriz = [[1 for _ in range(24)] for _ in range(3)]
 
     # Asociar nombres de cancha con índices de fila
@@ -244,13 +242,13 @@ def ver_disponibilidad():
 
                 cancha_idx = nombre_a_indice[cancha_nombre]
 
-                # Obtener hora (0 a 23) de la fecha y hora
+                # Obtener hora 
                 from datetime import datetime
                 try:
                     fecha_hora_obj = datetime.strptime(fecha_hora, "%Y-%m-%d %H:%M")
                     hora = fecha_hora_obj.hour
                 except ValueError:
-                    continue  # Fecha mal formateada
+                    continue
 
                 # Marcar como ocupada
                 matriz[cancha_idx][hora] = 0

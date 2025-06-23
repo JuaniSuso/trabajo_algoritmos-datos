@@ -7,7 +7,10 @@ juan2 - Cancha 1 - 2025-04-23 12:00
 juan2 - Cancha 1 - 
 juan2 - Cancha 1 - 
 juan2 - Cancha 1 - 
-hola - Cancha 2 - 2025-04-25 12:00
 hola - Cancha 2 - 2025-04-24 12:00
 hola - Cancha 1 - 
 juan2 - Cancha 2 - 2025-04-25 17:00
+hola - Cancha 1 - 2025-04-24 12:00
+hola - Cancha 1 - 2025-05-23 12:00
+hola - Cancha 1 - 2025-06-19 19:00
+hola - Cancha 2 - 2025-06-19 21:00
