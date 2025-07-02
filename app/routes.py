@@ -233,16 +233,21 @@ def agregar_cancha():
 
 @main.route("/ver_disponibilidad")
 def ver_disponibilidad():
-    # 3 canchas (índices: 0, 1, 2)
-    # Matriz de 3 filas x 24 columnas 
-    matriz = [[1 for _ in range(24)] for _ in range(3)]
+    # Leer canchas dinámicamente desde el archivo
+    canchas = []
+    try:
+        with open("data/canchas.txt", "r", encoding="utf-8") as archivo:
+            for linea in archivo:
+                datos = linea.strip().split(" - ")
+                if len(datos) >= 3:
+                    nombre, ubicacion, cesped = datos[:3]
+                    canchas.append(nombre)
+    except FileNotFoundError:
+        pass
 
-    # Asociar nombres de cancha con índices de fila
-    nombre_a_indice = {
-        "Cancha 1": 0,
-        "Cancha 2": 1,
-        "Cancha 3": 2,
-    }
+    cantidad_canchas = len(canchas)
+    matriz = [[1 for _ in range(24)] for _ in range(cantidad_canchas)]
+    nombre_a_indice = {nombre: idx for idx, nombre in enumerate(canchas)}
 
     try:
         with open("data/reservas.txt", "r", encoding="utf-8") as archivo:
@@ -251,26 +256,19 @@ def ver_disponibilidad():
                 if len(datos) != 3:
                     continue
                 _, cancha_nombre, fecha_hora = datos
-
                 if cancha_nombre not in nombre_a_indice:
-                    continue  # Si la cancha no está en nuestro mapeo
-
+                    continue
                 cancha_idx = nombre_a_indice[cancha_nombre]
-
-                # Obtener hora 
                 from datetime import datetime
                 try:
                     fecha_hora_obj = datetime.strptime(fecha_hora, "%Y-%m-%d %H:%M")
                     hora = fecha_hora_obj.hour
                 except ValueError:
                     continue
-
-                # Marcar como ocupada
                 matriz[cancha_idx][hora] = 0
     except FileNotFoundError:
-        pass  # Sin reservas aún
+        pass
 
-    # Cálculo de estadísticas
     por_cancha = [sum(fila) for fila in matriz]
     por_horario = [sum(col) for col in zip(*matriz)]
 
@@ -278,7 +276,8 @@ def ver_disponibilidad():
         "disponibilidad.html",
         matriz=matriz,
         por_cancha=por_cancha,
-        por_horario=por_horario
+        por_horario=por_horario,
+        canchas=canchas
     )
 
 @main.route("/admin/editar_cancha/<int:cancha_id>", methods=["GET", "POST"])

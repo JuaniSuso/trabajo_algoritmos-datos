@@ -30,10 +30,10 @@
                 <th>{{ h }}hs</th>
             {% endfor %}
         </tr>
-        {% for fila in matriz %}
+        {% for i in range(matriz|length) %}
         <tr>
-            <th>Cancha {{ loop.index }}</th>
-            {% for valor in fila %}
+            <th>{{ canchas[i] }}</th>
+            {% for valor in matriz[i] %}
             <td class="{{ 'disponible' if valor == 1 else 'ocupado' }}">{{ valor }}</td>
             {% endfor %}
         </tr>
@@ -42,8 +42,8 @@
 
     <h3>Horas disponibles por cancha:</h3>
     <ul>
-        {% for cant in por_cancha %}
-        <li>Cancha {{ loop.index }}: {{ cant }} horas libres</li>
+        {% for i in range(por_cancha|length) %}
+        <li>{{ canchas[i] }}: {{ por_cancha[i] }} horas libres</li>
         {% endfor %}
     </ul>
 
