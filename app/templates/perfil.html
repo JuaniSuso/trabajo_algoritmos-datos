@@ -26,21 +26,30 @@
     <p><strong>Email:</strong> {{ datos.email }}</p>
     <p><strong>Teléfono:</strong> {{ datos.telefono }}</p>
     <h2>Tus reservas:</h2>
-    <ul>
-        {% for reserva in reservas %}
-            <li>
-                {{ reserva.cancha }} - {{ reserva.fecha_hora }}
-                {% if reserva.puede_cancelar %}
-                    <form action="{{ url_for('main.cancelar_reserva') }}" method="POST" style="display:inline;">
-                        <input type="hidden" name="reserva" value="{{ datos.usuario }} - {{ reserva.cancha }} - {{ reserva.fecha_hora }}">
-                        <button type="submit">Cancelar</button>
-                    </form>
-                {% else %}
-                    <span>(No se puede cancelar)</span>
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
+    <table>
+  <tr>
+    <th>Cancha</th>
+    <th>Fecha y Hora</th>
+    <th>Acciones</th>
+  </tr>
+  {% for reserva in reservas %}
+  <tr>
+    <td>{{ reserva.cancha }}</td>
+    <td>{{ reserva.fecha_hora }}</td>
+    <td>
+      <a href="{{ url_for('main.comprobante', cancha=reserva.cancha, fecha_hora=reserva.fecha_hora) }}" target="_blank">
+        <button type="button">Descargar comprobante</button>
+      </a>
+      {% if reserva.puede_cancelar %}
+      <form method="POST" action="{{ url_for('main.cancelar_reserva') }}" style="display:inline;">
+        <input type="hidden" name="reserva" value="{{ session['usuario'] }} - {{ reserva.cancha }} - {{ reserva.fecha_hora }}">
+        <button type="submit">Cancelar</button>
+      </form>
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
     <p><a href="{{ url_for('main.home') }}">Volver al inicio</a></p>
     <p><a href="{{ url_for('main.reservar') }}">
         <button>Reservar Cancha</button>

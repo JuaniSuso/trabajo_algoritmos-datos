@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, session
+from flask import Blueprint, render_template, request, redirect, url_for, flash, session, jsonify, make_response
+from datetime import datetime
 
 main = Blueprint('main', __name__)
 
@@ -67,8 +68,6 @@ def register():
     return render_template("register.html")
 
 
-
-from datetime import datetime
 
 @main.route("/perfil")
 def perfil():
@@ -320,3 +319,42 @@ def eliminar_cancha(cancha_id):
         archivo.writelines(canchas)
     flash("Cancha eliminada correctamente.")
     return redirect(url_for("main.admin_panel"))
+
+@main.route("/comprobante/<cancha>/<fecha_hora>")
+def comprobante(cancha, fecha_hora):
+    if "usuario" not in session:
+        flash("Tenés que iniciar sesión.")
+        return redirect(url_for("main.login"))
+    usuario = session["usuario"]
+    comprobante = {
+        "usuario": usuario,
+        "cancha": cancha,
+        "fecha_hora": fecha_hora
+    }
+    response = make_response(jsonify(comprobante))
+    response.headers["Content-Disposition"] = f"attachment; filename=comprobante_{usuario}_{cancha}_{fecha_hora}.json"
+    return response
+
+@main.route("/admin/informe_reservas")
+def informe_reservas():
+    if "usuario" not in session or session.get("rol") != "empleado":
+        flash("Acceso solo para administradores.")
+        return redirect(url_for("main.login"))
+    reservas = []
+    try:
+        with open("data/reservas.txt", "r", encoding="utf-8") as archivo:
+            for linea in archivo:
+                datos = linea.strip().split(" - ")
+                if len(datos) == 3:
+                    usuario, cancha, fecha_hora = datos
+                    reservas.append({
+                        "usuario": usuario,
+                        "cancha": cancha,
+                        "fecha_hora": fecha_hora
+                    })
+    except FileNotFoundError:
+        pass
+    from flask import jsonify, make_response
+    response = make_response(jsonify(reservas))
+    response.headers["Content-Disposition"] = "attachment; filename=informe_reservas.json"
+    return response
