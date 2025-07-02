@@ -119,7 +119,6 @@ def reservar():
     return render_template("reserva.html", canchas=canchas)
 
 
-
 @main.route("/confirmar_reserva", methods=["POST"])
 def confirmar_reserva():
     if "usuario" not in session:
@@ -131,24 +130,29 @@ def confirmar_reserva():
     usuario = session["usuario"]
     nueva_reserva = f"{usuario} - {cancha} - {fecha_hora}"
 
+    canchas = [
+        {"nombre": "Cancha 1", "ubicacion": "Av. Siempre Viva 123", "tipo": "Sintético", "precio": 5000},
+        {"nombre": "Cancha 2", "ubicacion": "Calle Fútbol 456", "tipo": "Pasto natural", "precio": 6000},
+    ]
+
     try:
         with open("data/reservas.txt", "r", encoding="utf-8") as archivo:
             for linea in archivo:
                 datos = linea.strip().split(" - ")
-                if len(datos) != 3:  # Validar que la línea tenga exactamente 3 valores
-                    continue  # Ignorar líneas mal formateadas
+                if len(datos) != 3:
+                    continue
                 _, c, fh = datos
                 if c == cancha and fh == fecha_hora:
                     flash(f"La cancha '{cancha}' ya está reservada para el horario {fecha_hora}. Por favor, seleccioná otro horario.", "error")
-                    return redirect(url_for("main.reservar"))
+                    return render_template("reserva.html", canchas=canchas)
     except FileNotFoundError:
         pass
 
-    # Si no está reservada, guardar la nueva reserva
     with open("data/reservas.txt", "a", encoding="utf-8") as archivo:
         archivo.write(nueva_reserva + "\n")
-    flash(f"Reserva confirmada para {cancha} el {fecha_hora}.")
-    return redirect(url_for("main.perfil"))
+    flash(f"Reserva confirmada para {cancha} el {fecha_hora}.", "success")
+    return render_template("reserva.html", canchas=canchas)
+
 
 @main.route("/cancelar_reserva", methods=["POST"])
 def cancelar_reserva():
