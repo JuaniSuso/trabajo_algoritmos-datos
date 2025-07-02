@@ -111,11 +111,16 @@ def reservar():
         flash("Tenés que iniciar sesión para reservar.")
         return redirect(url_for("main.login"))
 
-    # Por ahora, usamos una lista fija de canchas de ejemplo
-    canchas = [
-        {"nombre": "Cancha 1", "ubicacion": "Av. Siempre Viva 123", "tipo": "Sintético", "precio": 5000},
-        {"nombre": "Cancha 2", "ubicacion": "Calle Fútbol 456", "tipo": "Pasto natural", "precio": 6000},
-    ]
+    canchas = []
+    try:
+        with open("data/canchas.txt", "r", encoding="utf-8") as archivo:
+            for linea in archivo:
+                datos = linea.strip().split(" - ")
+                if len(datos) >= 3:
+                    nombre, ubicacion, cesped = datos[:3]
+                    canchas.append({"nombre": nombre, "ubicacion": ubicacion, "tipo": cesped})
+    except FileNotFoundError:
+        pass
     return render_template("reserva.html", canchas=canchas)
 
 
@@ -130,10 +135,16 @@ def confirmar_reserva():
     usuario = session["usuario"]
     nueva_reserva = f"{usuario} - {cancha} - {fecha_hora}"
 
-    canchas = [
-        {"nombre": "Cancha 1", "ubicacion": "Av. Siempre Viva 123", "tipo": "Sintético", "precio": 5000},
-        {"nombre": "Cancha 2", "ubicacion": "Calle Fútbol 456", "tipo": "Pasto natural", "precio": 6000},
-    ]
+    canchas = []
+    try:
+        with open("data/canchas.txt", "r", encoding="utf-8") as archivo:
+            for linea in archivo:
+                datos = linea.strip().split(" - ")
+                if len(datos) >= 3:
+                    nombre, ubicacion, cesped = datos[:3]
+                    canchas.append({"nombre": nombre, "ubicacion": ubicacion, "tipo": cesped})
+    except FileNotFoundError:
+        pass
 
     try:
         with open("data/reservas.txt", "r", encoding="utf-8") as archivo:

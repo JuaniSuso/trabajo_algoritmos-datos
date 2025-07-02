@@ -59,21 +59,22 @@
         <h2>Reservar Cancha</h2>
     <!-- Mostrar mensajes de flash como ventana emergente -->
     
+<form method="POST" action="{{ url_for('main.confirmar_reserva') }}">
+    <label for="cancha">Seleccioná una cancha:</label><br>
+    <select name="cancha" required>
+        {% for cancha in canchas %}
+            <option value="{{ cancha.nombre }}">{{ cancha.nombre }} - {{ cancha.tipo }}</option>
+        {% endfor %}
+    </select><br><br>
 
+    <label for="fecha_hora">Fecha y Hora:</label><br>
+    <input type="text" id="fecha_hora" name="fecha_hora" required><br><br>
+
+    <button type="submit">Confirmar Reserva</button>
+</form>
     
 
-    <form method="POST" action="{{ url_for('main.confirmar_reserva') }}">
-        <label for="cancha">Seleccioná una cancha:</label><br>
-        <select name="cancha" required>
-            <option value="Cancha 1">Cancha 1 - Sintético</option>
-            <option value="Cancha 2">Cancha 2 - Pasto natural</option>
-        </select><br><br>
-
-        <label for="fecha_hora">Fecha y Hora:</label><br>
-        <input type="text" id="fecha_hora" name="fecha_hora" required><br><br>
-
-        <button type="submit">Confirmar Reserva</button>
-    </form>
+   
 
     <p style="text-align:center; color: white;"><a href="{{ url_for('main.perfil') }}">← Volver al perfil</a></p>
 
