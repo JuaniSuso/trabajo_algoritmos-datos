@@ -1,4 +1,21 @@
-<h2>Bienvenido, {{ usuario }} (Administrador)</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+<body>
+
+    <section class="nav-bar">
+
+            <a class="login" href="{{ url_for('main.home') }}">Inicio</a>
+        </section>
+
+
+    <div class="admin">
+        <h2>Bienvenido, {{ usuario }} (Administrador)</h2>
 
 <h3>Canchas Registradas</h3>
 <table border="1">
@@ -14,7 +31,7 @@
         <td>{{ cancha[1] }}</td>
         <td>{{ cancha[2] }}</td>
         <td>
-            <a href="#">Editar</a> | <a href="#">Eliminar</a>
+            <a class="boton" href="#">Editar</a> | <a class="boton" href="#">Eliminar</a>
         </td>
     </tr>
     {% endfor %}
@@ -22,3 +39,16 @@
 
 <br>
 <a href="{{ url_for('main.agregar_cancha') }}">Agregar Nueva Cancha</a>
+<a href="{{ url_for('main.ver_disponibilidad') }}">Ver Disponibilidad</a>
+
+    </div>
+
+    
+    
+</body>
+</html>
+
+
+
+
+

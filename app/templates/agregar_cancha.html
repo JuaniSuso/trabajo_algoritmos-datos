@@ -1,7 +1,46 @@
-<h2>Agregar Nueva Cancha</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='agregar-cancha.css') }}">
+</head>
+<body>
+    <header>
+
+        <section class="nav-bar">
+
+            <a class="login" href="{{ url_for('main.home') }}">Inicio</a>
+            <a class="login" href="{{ url_for('main.admin_panel') }}">Admin</a>
+            
+        </section>
+
+
+    <div class="admin">
+        
+
+
+    </header>
+
+    <main>
+
+        <h2>Bienvenido, {{ usuario }} (Administrador)</h2>
+
+        <h2>Agregar Nueva Cancha</h2>
 <form method="POST">
     Nombre: <input type="text" name="nombre" required><br>
     Ubicación: <input type="text" name="ubicacion" required><br>
     Tipo de Césped: <input type="text" name="cesped" required><br>
-    <input type="submit" value="Agregar Cancha">
+    <input class="cancha" type="submit" value="Agregar Cancha">
 </form>
+
+    </main>
+
+
+    <footer>
+
+    </footer>
+    
+</body>
+</html>
