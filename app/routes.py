@@ -358,3 +358,42 @@ def informe_reservas():
     response = make_response(jsonify(reservas))
     response.headers["Content-Disposition"] = "attachment; filename=informe_reservas.json"
     return response
+
+@main.route("/admin/cancelar_reservas", methods=["GET", "POST"])
+def cancelar_reserva_admin():
+    if "usuario" not in session or session.get("rol") != "empleado":
+        flash("Acceso solo para administradores.")
+        return redirect(url_for("main.login"))
+
+    if request.method == "POST":
+        reserva_a_cancelar = request.form["reserva"]
+        nuevas_reservas = []
+        try:
+            with open("data/reservas.txt", "r", encoding="utf-8") as archivo:
+                for linea in archivo:
+                    if linea.strip() != reserva_a_cancelar.strip():
+                        nuevas_reservas.append(linea)
+        except FileNotFoundError:
+            flash("No se encontró el archivo de reservas.", "error")
+            return redirect(url_for("main.cancelar_reserva_admin"))
+        with open("data/reservas.txt", "w", encoding="utf-8") as archivo:
+            archivo.writelines(nuevas_reservas)
+        flash("Reserva cancelada correctamente.", "success")
+        return redirect(url_for("main.cancelar_reserva_admin"))
+
+    # GET: mostrar todas las reservas (incluyendo las que tengan fecha vacía)
+    reservas = []
+    try:
+        with open("data/reservas.txt", "r", encoding="utf-8") as archivo:
+            for linea in archivo:
+                datos = linea.strip().split(" - ")
+                if len(datos) == 3:
+                    usuario, cancha, fecha_hora = datos
+                    reservas.append({
+                        "usuario": usuario,
+                        "cancha": cancha,
+                        "fecha_hora": fecha_hora
+                    })
+    except FileNotFoundError:
+        pass
+    return render_template("cancelar_reservas_admin.html", reservas=reservas)
