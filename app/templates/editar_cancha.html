@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Cancha</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+<body>
+    <h2>Editar Cancha</h2>
+    <form method="post">
+        <label>Nombre:</label>
+        <input type="text" name="nombre" value="{{ cancha[0] }}" required><br>
+        <label>Ubicación:</label>
+        <input type="text" name="ubicacion" value="{{ cancha[1] }}" required><br>
+        <label>Tipo de Césped:</label>
+        <input type="text" name="cesped" value="{{ cancha[2] }}" required><br>
+        <button type="submit">Guardar Cambios</button>
+        <a href="{{ url_for('main.admin_panel') }}">Cancelar</a>
+    </form>
+</body>
+</html>

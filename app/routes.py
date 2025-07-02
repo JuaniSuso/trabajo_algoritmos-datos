@@ -269,3 +269,44 @@ def ver_disponibilidad():
         por_cancha=por_cancha,
         por_horario=por_horario
     )
+
+@main.route("/admin/editar_cancha/<int:cancha_id>", methods=["GET", "POST"])
+def editar_cancha(cancha_id):
+    if "usuario" not in session or session.get("rol") != "empleado":
+        return redirect(url_for("main.login"))
+    canchas = []
+    with open("data/canchas.txt", "r", encoding="utf-8") as archivo:
+        for linea in archivo:
+            canchas.append(linea.strip().split(" - "))
+    if cancha_id < 0 or cancha_id >= len(canchas):
+        flash("Cancha no encontrada.")
+        return redirect(url_for("main.admin_panel"))
+    if request.method == "POST":
+        nombre = request.form["nombre"]
+        ubicacion = request.form["ubicacion"]
+        cesped = request.form["cesped"]
+        canchas[cancha_id] = [nombre, ubicacion, cesped]
+        with open("data/canchas.txt", "w", encoding="utf-8") as archivo:
+            for c in canchas:
+                archivo.write(" - ".join(c) + "\n")
+        flash("Cancha editada correctamente.")
+        return redirect(url_for("main.admin_panel"))
+    cancha = canchas[cancha_id]
+    return render_template("editar_cancha.html", cancha=cancha, cancha_id=cancha_id)
+
+@main.route("/admin/eliminar_cancha/<int:cancha_id>", methods=["POST"])
+def eliminar_cancha(cancha_id):
+    if "usuario" not in session or session.get("rol") != "empleado":
+        return redirect(url_for("main.login"))
+    canchas = []
+    with open("data/canchas.txt", "r", encoding="utf-8") as archivo:
+        for linea in archivo:
+            canchas.append(linea)
+    if cancha_id < 0 or cancha_id >= len(canchas):
+        flash("Cancha no encontrada.")
+        return redirect(url_for("main.admin_panel"))
+    canchas.pop(cancha_id)
+    with open("data/canchas.txt", "w", encoding="utf-8") as archivo:
+        archivo.writelines(canchas)
+    flash("Cancha eliminada correctamente.")
+    return redirect(url_for("main.admin_panel"))

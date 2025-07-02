@@ -31,7 +31,10 @@
         <td>{{ cancha[1] }}</td>
         <td>{{ cancha[2] }}</td>
         <td>
-            <a class="boton" href="#">Editar</a> | <a class="boton" href="#">Eliminar</a>
+            <a class="boton" href="{{ url_for('main.editar_cancha', cancha_id=loop.index0) }}">Editar</a> |
+            <form action="{{ url_for('main.eliminar_cancha', cancha_id=loop.index0) }}" method="post" style="display:inline;">
+                <button type="submit" class="boton" onclick="return confirm('¿Seguro que deseas eliminar esta cancha?')">Eliminar</button>
+            </form>
         </td>
     </tr>
     {% endfor %}
