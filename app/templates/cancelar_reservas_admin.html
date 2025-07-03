@@ -4,52 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='cancelar.css') }}">
+
 </head>
 <body>
 
     {% extends 'base.html' %}
 {% block title %}Cancelar Reservas (Admin){% endblock %}
 {% block content %}
-<h2>Cancelar reservas de usuarios</h2>
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    <ul class="flashes">
-    {% for category, message in messages %}
-      <li class="{{ category }}">{{ message }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
-{% if reservas and reservas|length > 0 %}
-<table class="table">
-    <thead>
-        <tr>
-            <th>Usuario</th>
-            <th>Cancha</th>
-            <th>Fecha y hora</th>
-            <th>Acción</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for reserva in reservas %}
-        <tr>
-            <td>{{ reserva.usuario }}</td>
-            <td>{{ reserva.cancha }}</td>
-            <td>{{ reserva.fecha_hora }}</td>
-            <td>
-                <form method="post" action="{{ url_for('main.cancelar_reserva_admin') }}">
-                    <input type="hidden" name="reserva" value="{{ reserva.usuario }} - {{ reserva.cancha }} - {{ reserva.fecha_hora }}">
-                    <button type="submit" class="btn btn-danger" onclick="return confirm('¿Seguro que desea cancelar esta reserva?');">Cancelar</button>
-                </form>
-            </td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
-{% else %}
-<p style="color:red;font-weight:bold;">No hay reservas para mostrar.</p>
-{% endif %}
-<a href="{{ url_for('main.admin_panel') }}" class="btn btn-secondary">Volver al panel de admin</a>
+<h2>Reservas de todos los usuarios</h2>
+<ul>
+{% for reserva in reservas %}
+  <li>{{ reserva.usuario }} - {{ reserva.cancha }} - {{ reserva.fecha_hora }}
+    <form method="POST" action="{{ url_for('main.cancelar_reserva_admin') }}" style="display:inline;">
+      <input type="hidden" name="reserva" value="{{ reserva.usuario }} - {{ reserva.cancha }} - {{ reserva.fecha_hora }}">
+      <button type="submit">Cancelar</button>
+    </form>
+  </li>
+{% endfor %}
+</ul>
+<a href="{{ url_for('main.admin_panel') }}">Volver al panel de admin</a>
 {% endblock %}
 
     

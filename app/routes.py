@@ -381,7 +381,7 @@ def cancelar_reserva_admin():
         flash("Reserva cancelada correctamente.", "success")
         return redirect(url_for("main.cancelar_reserva_admin"))
 
-    # GET: mostrar todas las reservas (incluyendo las que tengan fecha vacía)
+    # GET: mostrar todas las reservas hechas por usuarios (de todos, aunque sean viejas)
     reservas = []
     try:
         with open("data/reservas.txt", "r", encoding="utf-8") as archivo:
@@ -389,11 +389,21 @@ def cancelar_reserva_admin():
                 datos = linea.strip().split(" - ")
                 if len(datos) == 3:
                     usuario, cancha, fecha_hora = datos
-                    reservas.append({
-                        "usuario": usuario,
-                        "cancha": cancha,
-                        "fecha_hora": fecha_hora
-                    })
+                    # Solo mostrar reservas hechas por usuarios (usuario no vacío y cancha no vacía)
+                    if usuario.strip() and cancha.strip():
+                        puede_cancelar = True
+                        try:
+                            if fecha_hora.strip():
+                                fecha_hora_obj = datetime.strptime(fecha_hora, "%Y-%m-%d %H:%M")
+                                puede_cancelar = fecha_hora_obj > datetime.now()
+                        except Exception:
+                            pass
+                        reservas.append({
+                            "usuario": usuario,
+                            "cancha": cancha,
+                            "fecha_hora": fecha_hora,
+                            "puede_cancelar": puede_cancelar
+                        })
     except FileNotFoundError:
         pass
     return render_template("cancelar_reservas_admin.html", reservas=reservas)
