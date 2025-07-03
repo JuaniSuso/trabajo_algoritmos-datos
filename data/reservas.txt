@@ -3,12 +3,10 @@ facu123 - Cancha 1 - 2025-04-23 18:00
 juan456 - Cancha 2 - 2025-04-24 20:00
 facu123 - Cancha 1 - 2025-04-30 12:00
 
-juan2 - Cancha 1 - 2025-04-23 12:00
 juan2 - Cancha 1 - 
 juan2 - Cancha 1 - 
 juan2 - Cancha 1 - 
 hola - Cancha 1 - 
-juan2 - Cancha 2 - 2025-04-25 17:00
 facu123 - Cancha 1 - 2025-07-11 12:00
 facu123 - Cancha 1 - 2025-07-04 07:00
 facu123 - Cancha 1 - 2025-07-31 05:00

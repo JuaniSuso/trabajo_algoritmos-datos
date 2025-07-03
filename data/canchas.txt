@@ -1,5 +1,5 @@
 Cancha 1 - Av. Siempre Viva 123 - Sintético
 Cancha 2 - Calle Fútbol 456 - Pasto natural
-cancha 4 - merlo - cintetica
 cancha_ft_8 - merlo - natural
 cancha 9 - merlo - natural
+cancha 20 - alfonsin - negro
